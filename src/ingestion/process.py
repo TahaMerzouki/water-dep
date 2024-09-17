@@ -17,5 +17,4 @@ def remove_specific_rows(df, start_row, end_row):
     df_cleaned = df_with_row_num.filter((df_with_row_num.row_num < start_row) | (df_with_row_num.row_num > end_row)).drop("row_num")
     
     return df_cleaned
-
-
+    
