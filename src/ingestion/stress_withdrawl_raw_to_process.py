@@ -1,8 +1,12 @@
 # Databricks notebook source
+# MAGIC %run "../includes/config"
+
+# COMMAND ----------
+
 from pyspark.sql import functions as F
 from pyspark.sql.types import IntegerType, FloatType
 
-stress_withdrawl = spark.read.csv("/mnt/waterprojectdl/raw/stress_freshwater_withdrawl_proportion.csv", header=True)
+stress_withdrawl = spark.read.csv(f"{raw_folder_path}/stress_freshwater_withdrawl_proportion.csv", header=True)
 
 print(f"Original schema: {stress_withdrawl.printSchema()}")
 print(f"Original count: {stress_withdrawl.count()}")
