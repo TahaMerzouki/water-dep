@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %run "/Workspace/Repos/Water-project/water-dep/src/ingestion/includes/config"
+# MAGIC %run "/Workspace/Repos/Water-project/water-dep/includes/config"
 
 # COMMAND ----------
 
@@ -12,6 +12,15 @@ from pyspark.sql.types import IntegerType, FloatType
 water_withdrawl = spark.read.csv(f"{raw_folder_path}/water_withdrawl_raw.csv", header=True)
 print(f"schema: {water_withdrawl.printSchema()}")
 print(f"original count: {water_withdrawl.count()}")
+
+# COMMAND ----------
+
+import sys
+folder_path = sys.path.append("/Workspace/Repos/Water-project/water-dep/src/includes")
+
+# COMMAND ----------
+
+from process import remove_specific_rows
 
 # COMMAND ----------
 

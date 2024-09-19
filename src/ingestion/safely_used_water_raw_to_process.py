@@ -17,7 +17,8 @@ overall = spark.read.csv("dbfs:/mnt/waterprojectdl/raw/population_using_water_sa
 
 # COMMAND ----------
 
-# MAGIC %run "includes/process"
+import sys
+sys.path.append("/Workspace/Repos/Water-project/water-dep/src/ingestion")
 
 # COMMAND ----------
 
@@ -56,10 +57,6 @@ display(overall_cleaned_col.select("Year","Value").orderBy("Year"))
 # MAGIC %md
 # MAGIC ## Write the dataframe in a parquet file to processed folder
 # MAGIC
-
-# COMMAND ----------
-
-# MAGIC %run "includes/wtr_utils"
 
 # COMMAND ----------
 
