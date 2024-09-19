@@ -17,6 +17,10 @@ overall = spark.read.csv("dbfs:/mnt/waterprojectdl/raw/population_using_water_sa
 
 # COMMAND ----------
 
+# MAGIC %run "includes/process"
+
+# COMMAND ----------
+
 from process import remove_specific_rows
 overall_num_cleaned = remove_specific_rows(overall, 24, 59)
 
@@ -52,6 +56,10 @@ display(overall_cleaned_col.select("Year","Value").orderBy("Year"))
 # MAGIC %md
 # MAGIC ## Write the dataframe in a parquet file to processed folder
 # MAGIC
+
+# COMMAND ----------
+
+# MAGIC %run "includes/wtr_utils"
 
 # COMMAND ----------
 
