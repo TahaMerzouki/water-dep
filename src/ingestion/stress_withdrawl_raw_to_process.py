@@ -85,10 +85,15 @@ df_final.show()
 
 # COMMAND ----------
 
-df_final.write.mode("overwrite").parquet("mnt/waterprojectdl/processed/water_stress_processed")
-stress_pivoted.write.mode("overwrite").parquet("mnt/waterprojectdl/processed/water_stress_pivoted")
+df_final.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.stress_processed_table")
+stress_pivoted.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.stress_pivoted")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT * FROM wtr_processed.stress_pivoted;
 
 # COMMAND ----------
 
 stress = spark.read.parquet("/mnt/waterprojectdl/processed/water_stress_pivoted")
-stress.show()
+display(stress)

@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run "/Workspace/Repos/Water-project/water-dep/src/includes/config"
+
+# COMMAND ----------
+
 from pyspark.sql.functions import col, to_date, round, regexp_extract, lit
 from pyspark.sql.types import FloatType
 from functools import reduce
@@ -33,15 +37,11 @@ def load_and_transform_data(file_paths):
 
 # COMMAND ----------
 
-dbutils.fs
-
-# COMMAND ----------
-
 
 file_paths = [
-    "/mnt/waterprojectdl/raw/rural_improved.csv",
-    "/mnt/waterprojectdl/raw/urban_improved.csv",
-    "/mnt/waterprojectdl/raw/national_improved.csv"
+    f"{raw_folder_path}/rural_improved.csv",
+    f"{raw_folder_path}/urban_improved.csv",
+    f"{raw_folder_path}/national_improved.csv"
 ]
 
 
@@ -69,5 +69,10 @@ display(df_pivoted.select("Year", "urban", "rural"))
 
 # COMMAND ----------
 
-df_pivoted.write.mode("overwrite").parquet("/mnt/waterprojectdl/processed/improved-pivoted-urban-rural")
-transformed_df.write.mode("overwrite").parquet("/mnt/waterprojectdl/processed/improved-transformed-df")
+df_pivoted.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.improved_pivoted")
+transformed_df.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.improved_transformed")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT * FROM wtr_processed.improved_pivoted LIMIT 10;

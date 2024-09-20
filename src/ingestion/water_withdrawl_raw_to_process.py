@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %run "/Workspace/Repos/Water-project/water-dep/includes/config"
+# MAGIC %run "/Workspace/Repos/Water-project/water-dep/src/includes/config"
 
 # COMMAND ----------
 
@@ -21,10 +21,6 @@ folder_path = sys.path.append("/Workspace/Repos/Water-project/water-dep/src/incl
 # COMMAND ----------
 
 from process import remove_specific_rows
-
-# COMMAND ----------
-
-from includes.process import remove_specific_rows
 df = remove_specific_rows(water_withdrawl, 93, 128)
 print(df.count())
 
@@ -73,5 +69,10 @@ df_calculated = df_pivoted.withColumn(
 
 # COMMAND ----------
 
-df_calculated.write.partitionBy("Year").parquet(f"{processed_folder_path}/water_withdrawl_perc_partitioned/")
-df_pivoted.write.partitionBy("Year").parquet(f"{processed_folder_path}/water_withdrawl_pivoted_partitioned/")
+df_calculated.write.mode("overwrite").partitionBy("Year").format("parquet").saveAsTable("wtr_processed.withdrawl_perc")
+df_pivoted.write.mode("overwrite").partitionBy("Year").format("parquet").saveAsTable("wtr_processed.withdrawl_pivoted")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT * FROM wtr_processed.withdrawl_pivoted WHERE Year BETWEEN 2000 AND 2022 ORDER BY Year;
