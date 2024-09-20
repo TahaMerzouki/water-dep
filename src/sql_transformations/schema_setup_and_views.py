@@ -3,25 +3,23 @@
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC CREATE DATABASE IF NOT EXISTS wtr
+table_location = f"{presentation_folder_path}/water_withdrawl_analysis/withdrawl_analysis"
+
+# COMMAND ----------
+
+# Create database with location poitning to processed folder if it doesn't exist
+spark.sql(f"CREATE DATABASE IF NOT EXISTS wtr_processed LOCATION '{processed_folder_path}'")
+
+# COMMAND ----------
+
+spark.sql(f"CREATE DATABASE IF NOT EXISTS wtr_presentation LOCATION '{presentation_folder_path}'")
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC USE wtr
+# MAGIC DESC DATABASE wtr_processed
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC SELECT current_database()
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC CREATE TABLE IF NOT EXISTS water_withdrawal_analysis USING DELTA LOCATION 'presentation_folder_path'
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SHOW TABLES;

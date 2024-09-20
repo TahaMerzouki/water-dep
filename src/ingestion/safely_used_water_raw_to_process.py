@@ -4,21 +4,16 @@
 
 # COMMAND ----------
 
-display(dbutils.fs.mounts())
+# MAGIC %run "/Workspace/Repos/Water-project/water-dep/src/includes/config"
 
 # COMMAND ----------
 
-# MAGIC %fs 
-# MAGIC ls /mnt/waterprojectdl/raw
-
-# COMMAND ----------
-
-overall = spark.read.csv("dbfs:/mnt/waterprojectdl/raw/population_using_water_safely_overall.csv", header=True)
+overall = spark.read.csv(f"{raw_folder_path}/population_using_water_safely_overall.csv", header=True)
 
 # COMMAND ----------
 
 import sys
-sys.path.append("/Workspace/Repos/Water-project/water-dep/src/ingestion")
+sys.path.append("/Workspace/Repos/Water-project/water-dep/src/includes")
 
 # COMMAND ----------
 
@@ -65,30 +60,14 @@ processed_mount = mount_dbfs("waterprojectdl", "processed")
 
 # COMMAND ----------
 
-overall_cleaned_col.write.mode("overwrite").parquet("dbfs:/mnt/waterprojectdl/processed/overall")
+overall_cleaned_col.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.overall_table")
 
 # COMMAND ----------
 
-files = dbutils.fs.ls("mnt/waterprojectdl/processed/overall")
-for file in files:
-    print(file.path)
+# MAGIC %sql
+# MAGIC SELECT * FROM wtr_processed.overall_table;
 
 # COMMAND ----------
 
-output_path = "dbfs:/mnt/waterprojectdl/processed/overall"
-files = dbutils.fs.ls(output_path)
-if files:
-    print(f"Files written to {output_path}:")
-    for file in files:
-        print(file.path)
-else:
-    print(f"No files found in {output_path}")
-
-# COMMAND ----------
-
-dbutils.fs.mounts()
-
-# COMMAND ----------
-
-df = spark.read.parquet("/mnt/waterprojectdl/processed/overall")
+df = spark.read.parquet(f"{processed_folder_path}/overall")
 display(df)

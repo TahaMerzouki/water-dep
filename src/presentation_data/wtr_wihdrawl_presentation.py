@@ -10,7 +10,7 @@ sys.path.append("/Workspace/Repos/Water-project/water-dep/src/includes")
 
 # COMMAND ----------
 
-df = spark.read.parquet(f"{processed_folder_path}/water_withdrawl_perc_partitioned", header=True)
+df = spark.read.parquet(f"{processed_folder_path}/withdrawl_perc", header=True)
 
 # COMMAND ----------
 
@@ -77,13 +77,13 @@ pres_folder_path = f"{presentation_folder_path}/water_withdrawl_analysis"
 
 # COMMAND ----------
 
-from wtr_utils import *
-gold_mount = mount_dbfs("waterprojectdl", "presentation")
-
-# COMMAND ----------
-
 df_presentation.write \
     .format("delta") \
     .mode("overwrite") \
     .partitionBy("Year") \
-    .save(f"{presentation_folder_path}/withdrawl_analysis")
+    .saveAsTable("wtr_presentation.withdrawl_analysis")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT Year, agricultural_water_withdrawal, industrial_water_withdrawal, municipal_percentage FROM wtr_presentation.withdrawl_analysis WHERE Year BETWEEN 2000 AND 2022 ORDER BY Year;
