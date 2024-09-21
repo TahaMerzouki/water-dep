@@ -49,10 +49,6 @@ transformed_df = load_and_transform_data(file_paths)
 
 # COMMAND ----------
 
-display(transformed_df)
-
-# COMMAND ----------
-
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 
@@ -64,15 +60,8 @@ df_pivoted = df_filtered.groupBy("Year").pivot("Area_Type").agg(F.first("Access_
 # Order by Year
 df_pivoted = df_pivoted.orderBy("Year")
 
-# Create a bar chart
-display(df_pivoted.select("Year", "urban", "rural"))
 
 # COMMAND ----------
 
 df_pivoted.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.improved_pivoted")
 transformed_df.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.improved_transformed")
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_processed.improved_pivoted LIMIT 10;

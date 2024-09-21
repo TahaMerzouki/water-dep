@@ -10,8 +10,6 @@ from pyspark.sql.types import IntegerType, FloatType
 # COMMAND ----------
 
 water_withdrawl = spark.read.csv(f"{raw_folder_path}/water_withdrawl_raw.csv", header=True)
-print(f"schema: {water_withdrawl.printSchema()}")
-print(f"original count: {water_withdrawl.count()}")
 
 # COMMAND ----------
 
@@ -22,7 +20,6 @@ folder_path = sys.path.append("/Workspace/Repos/Water-project/water-dep/src/incl
 
 from process import remove_specific_rows
 df = remove_specific_rows(water_withdrawl, 93, 128)
-print(df.count())
 
 # COMMAND ----------
 
@@ -52,10 +49,6 @@ df_pivoted = df_filtered.groupBy("Year") \
 
 # COMMAND ----------
 
-display(df_pivoted)
-
-# COMMAND ----------
-
 df_calculated = df_pivoted.withColumn(
     "agricultural_percentage",
     col("Agricultural water withdrawal") / col("Total water withdrawal") * 100
@@ -71,8 +64,3 @@ df_calculated = df_pivoted.withColumn(
 
 df_calculated.write.mode("overwrite").partitionBy("Year").format("parquet").saveAsTable("wtr_processed.withdrawl_perc")
 df_pivoted.write.mode("overwrite").partitionBy("Year").format("parquet").saveAsTable("wtr_processed.withdrawl_pivoted")
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_processed.withdrawl_pivoted WHERE Year BETWEEN 2000 AND 2022 ORDER BY Year;

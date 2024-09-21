@@ -33,19 +33,10 @@ null_columns
 # COMMAND ----------
 
 overall_cleaned_col = overall_num_cleaned.drop(*null_columns, "SDG indicator", "SDG 6 Data portal level")
-display(overall_cleaned_col)
 
 # COMMAND ----------
 
 overall_cleaned_col = overall_cleaned_col.withColumn("Value", col("Value").cast("double")).withColumn("Year", col("Year").cast("integer"))
-
-# COMMAND ----------
-
-overall_cleaned_col.printSchema()
-
-# COMMAND ----------
-
-display(overall_cleaned_col.select("Year","Value").orderBy("Year"))
 
 # COMMAND ----------
 
@@ -61,13 +52,3 @@ processed_mount = mount_dbfs("waterprojectdl", "processed")
 # COMMAND ----------
 
 overall_cleaned_col.write.mode("overwrite").format("parquet").saveAsTable("wtr_processed.overall_table")
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_processed.overall_table;
-
-# COMMAND ----------
-
-df = spark.read.parquet(f"{processed_folder_path}/overall")
-display(df)

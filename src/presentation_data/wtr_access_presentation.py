@@ -3,94 +3,6 @@
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_processed.improved_pivoted;
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_processed.improved_transformed;
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_processed.overall_table;
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC -- 1. Calculate year-over-year growth rates
-# MAGIC WITH growth_rates AS (
-# MAGIC   SELECT 
-# MAGIC     Year,
-# MAGIC     Area_Type,
-# MAGIC     Access_Percentage,
-# MAGIC     (Access_Percentage - LAG(Access_Percentage) OVER (PARTITION BY Area_Type ORDER BY Year)) 
-# MAGIC       / LAG(Access_Percentage) OVER (PARTITION BY Area_Type ORDER BY Year) * 100 AS yoy_growth_rate
-# MAGIC   FROM wtr_processed.improved_transformed
-# MAGIC   WHERE Country = 'Morocco'
-# MAGIC ),
-# MAGIC
-# MAGIC -- 2. Calculate rural-urban gap
-# MAGIC rural_urban_gap AS (
-# MAGIC   SELECT 
-# MAGIC     u.Year,
-# MAGIC     u.Access_Percentage - r.Access_Percentage AS urban_rural_gap
-# MAGIC   FROM wtr_processed.improved_transformed u
-# MAGIC   JOIN wtr_processed.improved_transformed r ON u.Year = r.Year
-# MAGIC   WHERE u.Area_Type = 'urban' AND r.Area_Type = 'rural' AND u.Country = 'Morocco' AND r.Country = 'Morocco'
-# MAGIC ),
-# MAGIC
-# MAGIC -- 3. Calculate overall growth rate (2000 to 2022)
-# MAGIC overall_growth AS (
-# MAGIC   SELECT
-# MAGIC     Area_Type,
-# MAGIC     (MAX(CASE WHEN Year = '2022-01-01' THEN Access_Percentage END) - 
-# MAGIC      MAX(CASE WHEN Year = '2000-01-01' THEN Access_Percentage END)) / 
-# MAGIC      MAX(CASE WHEN Year = '2000-01-01' THEN Access_Percentage END) * 100 AS overall_growth_rate
-# MAGIC   FROM wtr_processed.improved_transformed
-# MAGIC   WHERE Country = 'Morocco'
-# MAGIC   GROUP BY Area_Type
-# MAGIC ),
-# MAGIC
-# MAGIC -- 4. Calculate summary statistics
-# MAGIC summary_stats AS (
-# MAGIC   SELECT
-# MAGIC     Area_Type,
-# MAGIC     AVG(Access_Percentage) AS mean_access,
-# MAGIC     PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY Access_Percentage) AS median_access,
-# MAGIC     MIN(Access_Percentage) AS min_access,
-# MAGIC     MAX(Access_Percentage) AS max_access,
-# MAGIC     VARIANCE(Access_Percentage) AS variance_access,
-# MAGIC     STDDEV(Access_Percentage) AS stddev_access
-# MAGIC   FROM wtr_processed.improved_transformed
-# MAGIC   WHERE Country = 'Morocco'
-# MAGIC   GROUP BY Area_Type
-# MAGIC )
-# MAGIC
-# MAGIC -- Combine all the analyses
-# MAGIC SELECT 
-# MAGIC   g.Year,
-# MAGIC   g.Area_Type,
-# MAGIC   g.Access_Percentage,
-# MAGIC   g.yoy_growth_rate,
-# MAGIC   rug.urban_rural_gap,
-# MAGIC   og.overall_growth_rate,
-# MAGIC   ss.mean_access,
-# MAGIC   ss.median_access,
-# MAGIC   ss.min_access,
-# MAGIC   ss.max_access,
-# MAGIC   ss.variance_access,
-# MAGIC   ss.stddev_access
-# MAGIC FROM growth_rates g
-# MAGIC LEFT JOIN rural_urban_gap rug ON g.Year = rug.Year
-# MAGIC LEFT JOIN overall_growth og ON g.Area_Type = og.Area_Type
-# MAGIC LEFT JOIN summary_stats ss ON g.Area_Type = ss.Area_Type
-# MAGIC ORDER BY g.Area_Type, g.Year;
-# MAGIC
-
-# COMMAND ----------
-
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 
@@ -156,17 +68,8 @@ combined_analysis = (
 
 # COMMAND ----------
 
-display(combined_analysis)
-
-# COMMAND ----------
-
 combined_analysis.write.mode("overwrite").parquet(f"{presentation_folder_path}/water_access_analysis")
 
 # COMMAND ----------
 
 combined_analysis.write.mode("overwrite").format("delta").saveAsTable("wtr_presentation.water_access_analysis")
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_presentation.water_access_analysis;
