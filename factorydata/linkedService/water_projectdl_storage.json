@@ -1,0 +1,10 @@
+{
+	"name": "water_projectdl_storage",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://waterprojectdl.dfs.core.windows.net/"
+		}
+	}
+}
