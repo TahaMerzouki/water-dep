@@ -1,0 +1,139 @@
+{
+	"name": "process_to_presentation_pipeline_copy1",
+	"properties": {
+		"activities": [
+			{
+				"name": "water_acces_presentation",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/presentation_data/wtr_access_presentation",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "water_service_presentation",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/presentation_data/wtr_service_presentation",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "water_stress_presentation",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/presentation_data/wtr_stress_presentation",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "water_withdrawl_presentation",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/presentation_data/wtr_wihdrawl_presentation",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"p_window_end_date": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"v_data_source": {
+				"type": "String",
+				"defaultValue": "SDG6"
+			}
+		},
+		"annotations": []
+	}
+}
