@@ -3,12 +3,6 @@
 
 # COMMAND ----------
 
-# MAGIC %sql 
-# MAGIC SELECT * FROM wtr_processed.stress_processed_table; 
-# MAGIC
-
-# COMMAND ----------
-
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 from delta.tables import DeltaTable
@@ -61,11 +55,6 @@ combined_analysis = (
     .join(F.broadcast(overall_change))
     .join(F.broadcast(summary_stats))
 )
-
-# COMMAND ----------
-
-# Stacked area chart showing the percentage contribution of each sector
-display(combined_analysis.select("Year", "agriculture_water_stress_percentage", "industry_water_stress_percentage", "services_water_stress_percentage"))
 
 # COMMAND ----------
 

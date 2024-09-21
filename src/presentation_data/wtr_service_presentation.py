@@ -3,11 +3,6 @@
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC SELECT * FROM overall_table;
-
-# COMMAND ----------
-
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
 from delta.tables import DeltaTable
@@ -61,10 +56,6 @@ summary_stats = morocco_water_df.select(
 # COMMAND ----------
 
 combined_analysis = morocco_water_df.join(F.broadcast(overall_change))
-
-# COMMAND ----------
-
-display(combined_analysis)
 
 # COMMAND ----------
 

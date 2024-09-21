@@ -8,9 +8,6 @@ from pyspark.sql.types import IntegerType, FloatType
 
 stress_withdrawl = spark.read.csv(f"{raw_folder_path}/stress_freshwater_withdrawl_proportion.csv", header=True)
 
-print(f"Original schema: {stress_withdrawl.printSchema()}")
-print(f"Original count: {stress_withdrawl.count()}")
-
 # COMMAND ----------
 
 # Remove rows where all columns are null
@@ -29,18 +26,12 @@ if sdg_column:
 
 stress_withdrawl = stress_withdrawl.select(*columns_to_select)
 
-print(f"Count after cleaning: {stress_withdrawl.count()}")
-stress_withdrawl.printSchema()
-
-display(stress_withdrawl)
 
 # COMMAND ----------
 
 # Convert Year to integer and Value to float
 stress_withdrawl = stress_withdrawl.withColumn('Year', F.col('Year').cast(IntegerType())) \
        .withColumn('Value', F.col('Value').cast(FloatType()))
-
-stress_withdrawl.printSchema()
 
 # COMMAND ----------
 
@@ -62,7 +53,6 @@ stress_withdrawl.groupBy('Sector').count().show()
 # COMMAND ----------
 
 stress_pivoted = stress_withdrawl.groupBy('Year').pivot('Sector').agg(F.first('Value'))
-display(stress_pivoted)
 
 # COMMAND ----------
 
@@ -76,12 +66,9 @@ df_final = df_final.withColumnRenamed('Agriculture', 'agriculture_water_stress')
                    .withColumnRenamed('Industry', 'industry_water_stress') \
                    .withColumnRenamed('Services', 'services_water_stress')
 
-df_final.show(5)
-
 # COMMAND ----------
 
 df_final = df_final.orderBy('Year')
-df_final.show()
 
 # COMMAND ----------
 
@@ -90,10 +77,4 @@ stress_pivoted.write.mode("overwrite").format("parquet").saveAsTable("wtr_proces
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC SELECT * FROM wtr_processed.stress_pivoted;
-
-# COMMAND ----------
-
 stress = spark.read.parquet("/mnt/waterprojectdl/processed/water_stress_pivoted")
-display(stress)
