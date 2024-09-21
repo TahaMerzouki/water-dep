@@ -1,0 +1,9 @@
+{
+	"name": "water-df",
+	"location": "francecentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "882ddb91-c698-43aa-9522-8cdb6b88678f",
+		"tenantId": "49b84540-eb00-44a6-bfcf-23ffcb66b044"
+	}
+}
