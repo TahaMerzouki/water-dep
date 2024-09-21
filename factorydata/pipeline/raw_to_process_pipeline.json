@@ -1,0 +1,139 @@
+{
+	"name": "raw_to_process_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "improved_source_raw_to_processed",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/ingestion/improved_source_raw_to_process",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "safelly_used_raw_to_processed_copy1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/ingestion/safely_used_water_raw_to_process",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "stress_withdrawl_raw_to_processed_copy2",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/ingestion/stress_withdrawl_raw_to_process",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "water_withdrawl_raw_to_processed_copy3",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/Water-project/water-dep/src/ingestion/water_withdrawl_raw_to_process",
+					"baseParameters": {
+						"p_data_source": {
+							"value": "@variables('v_data_source')",
+							"type": "Expression"
+						},
+						"p_file_date": {
+							"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyyy-MM-dd')",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_water_dep_ws",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"p_window_end_date": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"v_data_source": {
+				"type": "String",
+				"defaultValue": "SDG6"
+			}
+		},
+		"annotations": []
+	}
+}

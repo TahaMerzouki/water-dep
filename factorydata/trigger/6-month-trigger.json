@@ -1,0 +1,33 @@
+{
+	"name": "6-month-trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "raw_presentation_pipeline",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"p_window_end_date": "@trigger().scheduledTime"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Month",
+				"interval": 6,
+				"startTime": "2024-09-21T19:23:08",
+				"endTime": "2024-09-22T18:08:00",
+				"timeZone": "Morocco Standard Time",
+				"schedule": {
+					"monthDays": [
+						1
+					]
+				}
+			}
+		}
+	}
+}
