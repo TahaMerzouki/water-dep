@@ -1,0 +1,120 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "water_projectdl_storage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"p_window_end_date": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": {
+					"value": "@formatDateTime(dataset().p_window_end_date, 'yyyy-MM-dd')",
+					"type": "Expression"
+				},
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SDG",
+				"type": "String"
+			},
+			{
+				"name": "SDG target",
+				"type": "String"
+			},
+			{
+				"name": "SDG indicator",
+				"type": "String"
+			},
+			{
+				"name": "Indicator Code",
+				"type": "String"
+			},
+			{
+				"name": "Indicator name",
+				"type": "String"
+			},
+			{
+				"name": "Geographical area code",
+				"type": "String"
+			},
+			{
+				"name": "Geographical area name",
+				"type": "String"
+			},
+			{
+				"name": "Year",
+				"type": "String"
+			},
+			{
+				"name": "Value",
+				"type": "String"
+			},
+			{
+				"name": "Time detail",
+				"type": "String"
+			},
+			{
+				"name": "Source",
+				"type": "String"
+			},
+			{
+				"name": "Footnote",
+				"type": "String"
+			},
+			{
+				"name": "Type of data",
+				"type": "String"
+			},
+			{
+				"name": "Units",
+				"type": "String"
+			},
+			{
+				"name": "Age group",
+				"type": "String"
+			},
+			{
+				"name": "Bounds",
+				"type": "String"
+			},
+			{
+				"name": "Frequency",
+				"type": "String"
+			},
+			{
+				"name": "Level/Status",
+				"type": "String"
+			},
+			{
+				"name": "Location",
+				"type": "String"
+			},
+			{
+				"name": "Type of reporting",
+				"type": "String"
+			},
+			{
+				"name": "Sex",
+				"type": "String"
+			},
+			{
+				"name": "SDG 6 Data portal level",
+				"type": "String"
+			}
+		]
+	}
+}
