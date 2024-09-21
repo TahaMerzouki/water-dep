@@ -1,0 +1,63 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "water-df"
+		},
+		"water_projectdl_storage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'water_projectdl_storage'"
+		},
+		"ls_water_dep_ws_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0907-174504-ko9ka5sz"
+		},
+		"water_projectdl_storage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://waterprojectdl.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "water-df_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"water_projectdl_storage_accountKey": {
+						"value": "[parameters('water_projectdl_storage_accountKey')]"
+					},
+					"ls_water_dep_ws_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('ls_water_dep_ws_properties_typeProperties_existingClusterId')]"
+					},
+					"water_projectdl_storage_properties_typeProperties_url": {
+						"value": "[parameters('water_projectdl_storage_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
