@@ -13,6 +13,9 @@
 		},
 		"water_projectdl_storage_properties_typeProperties_url": {
 			"value": "https://waterprojectdl.dfs.core.windows.net/"
+		},
+		"6-month-trigger_properties_raw_presentation_pipeline_parameters_p_window_end_date": {
+			"value": "@trigger().scheduledTime"
 		}
 	}
 }
