@@ -1,0 +1,13 @@
+{
+	"name": "ls_water_dep_ws",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-3213066854837063.3.azuredatabricks.net",
+			"authentication": "MSI",
+			"workspaceResourceId": "/subscriptions/d15b1276-1754-4798-b27c-60b85c21df12/resourceGroups/AzWaterprojectgrp/providers/Microsoft.Databricks/workspaces/waterdatabricks-ws",
+			"existingClusterId": "0907-174504-ko9ka5sz"
+		}
+	}
+}
