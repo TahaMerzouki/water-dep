@@ -6,6 +6,14 @@ This project analyzes national water consumption data for Morocco using SDG6 (Su
 ## Data Source
 Data is sourced from the SDG 6 Data Portal (https://sdg6data.org/). Usage of this data is subject to specific terms and conditions. Please see DATA_USAGE.md for detailed information on data usage rights and citation requirements.
 
+## Project Architecture
+This project follows an architecture very similar to the one shown in the image below: 
+![Architecture](assets/images/architecture.png)
+
+> [!NOTE]
+> I'll make sure to provide a more accurate version soon.
+> This is just the baseline of the project, and I plan to expand it further, so the architecture will evolve over time.
+
 ## Azure Services Used
 - Azure Data Lake Storage Gen2 (ADLS Gen2): ADLS Gen2 is a highly scalable and secure data lake solution for big data analytics. It provides a hierarchical namespace that makes it easier to organize and manage data, and it supports Azure Blob storage features for cost-effective storage.
 
@@ -16,6 +24,7 @@ Data is sourced from the SDG 6 Data Portal (https://sdg6data.org/). Usage of thi
 - Azure Key Vault: Azure Key Vault is a cloud service for securely storing and accessing secrets, such as API keys, passwords, certificates, and cryptographic keys. It's used in this project to manage sensitive information securely.
 
 - Power BI: Power BI is a business analytics tool by Microsoft. It provides interactive visualizations and business intelligence capabilities with an interface simple enough for end users to create their own reports and dashboards. In this project, it's used for creating data visualizations and deriving insights.
+
 
 ## Visualizations and Insights
 
