@@ -60,6 +60,8 @@ This project follows an architecture very similar to the one shown in the image 
    - Remains relatively constant over the 20-year period
    - Indicates consistent urban water supply, with potential for efficiency improvements
 
+> [!NOTE]
+> i'll upload more visuals and insights shortly
 ## Acknowledgments
 - SDG 6 Data Portal for providing the data
 - Azure cloud services for data processing and analysis
