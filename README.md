@@ -16,7 +16,7 @@ Data is sourced from the SDG 6 Data Portal (https://sdg6data.org/). Usage of thi
 ## Visualizations and Insights
 
 ### Visualization 1: Water Access in Morocco
-![Water Access](assests/water.gif)
+![Water Access](assets/water.gif)
 Brief description of the insights gained from this visualization.
 
 ### Visualization 2: [Title of Visualization]
